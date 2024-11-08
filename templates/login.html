@@ -1,0 +1,175 @@
+<!-- main -->
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #login-container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #004d61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #007B83;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Bot - Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #login-container {
+            width: 50%;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            animation: slide-in 1.5s ease;
+        }
+
+        @keyframes slide-in {
+            from {transform: translateY(-100%);}
+            to {transform: translateY(0);}
+        }
+
+        .header {
+            position: absolute;
+            top: 10px;
+            text-align: center;
+            width: 100%;
+            font-size: 1.5em;
+            color: #004d61;
+            font-weight: bold;
+            animation: fade-in 1.8s ease;
+        }
+
+        @keyframes fade-in {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .login-part, .about-part {
+            width: 50%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .login-part input, .login-part button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .about-part p {
+            font-size: 0.9em;
+            color: #333;
+            line-height: 1.6;
+            animation: about-slide 1.2s ease;
+        }
+
+        @keyframes about-slide {
+            from {opacity: 0; transform: translateX(100%);}
+            to {opacity: 1; transform: translateX(0);}
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: #666;
+            font-size: 0.8em;
+            animation: footer-appear 2s ease;
+        }
+
+        @keyframes footer-appear {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Health Bot</div>
+    <div id="login-container">
+        <div class="login-part">
+            <h3>Login</h3>
+            <form action="/login" method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="about-part">
+            <h3>About Us</h3>
+            <p>A team of final-year students is developing an innovative project to support mental wellness through AI, machine learning, and computer vision. Their solution uses facial emotion recognition and natural language processing to detect early signs of emotional distress, offering personalized support and resources while prioritizing accessibility and privacy.</p>
+        </div>
+    </div>
+    <div class="footer">
+        Contributors: Heemaj Yadav, Isha Rao, Prajwal Quadras, Pranav Nair
+    </div>
+</body>
+</html> -->
+

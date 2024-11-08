@@ -1,0 +1,268 @@
+<!-- main -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Health Detector</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #004d61;
+        }
+
+        #container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        #camera, #chatbot {
+            padding: 20px;
+        }
+
+        #camera {
+            width: 35%;
+            background-color: #004d61;
+            color: white;
+            border-right: 2px solid #e0e0e0;
+        }
+
+        #chatbot {
+            width: 65%;
+            background-color: #f9fbfc;
+        }
+
+        #chat-log {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+            text-align: left;  /* Ensure text aligns to the left */
+        }
+
+        #chat-log p {
+            margin: 5px 0;
+            text-align: left;  /* Align individual chat entries to the left */
+        }
+
+        #user-message {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #004d61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #007B83;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="camera">
+            <h3>Emotion Detection (60 seconds)</h3>
+            <img id="camera-feed" src="{{ url_for('video_feed') }}" width="100%" alt="Camera feed">
+        </div>
+
+        <div id="chatbot">
+            <h3>Chat with Alex</h3>
+            <div id="chat-log"></div>
+            <form id="chat-form">
+                <input type="text" id="user-message" placeholder="Type your message" autocomplete="off">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatLog = document.getElementById('chat-log');
+        const userMessageInput = document.getElementById('user-message');
+
+        // Display the start message
+        const startMessage = "==== Hello! I am Alex, your virtual friend. Let's start by talking about some positive aspects of your life. Remember, I'm here to listen. If you need to stop, just type 'exit'. ====";
+        chatLog.innerHTML += `<p><strong>Alex:</strong> ${startMessage}</p>`;
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userMessage = userMessageInput.value;
+            if (!userMessage.trim()) return;  // Prevent empty messages
+
+            chatLog.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            userMessageInput.value = '';
+
+            fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const replies = data.reply.split('\n\n');
+                replies.forEach(reply => {
+                    chatLog.innerHTML += `<p><strong>Alex:</strong> ${reply}</p>`;
+                });
+                chatLog.scrollTop = chatLog.scrollHeight;
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #video-container {
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+        }
+        #video {
+            width: 100%;
+            height: auto;
+        }
+        #messages {
+            overflow-y: auto;
+            height: 300px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user {
+            text-align: right;
+            color: blue;
+        }
+        .bot {
+            text-align: left;
+            color: green;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 22px);
+        }
+        button {
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h1>Health Bot</h1>
+        <div id="messages"></div>
+        <input type="text" id="user-input" placeholder="Type your message here..." autofocus>
+        <button id="send-button">Send</button>
+    </div>
+    <div id="video-container">
+        <h2>Facial Emotion Detection</h2>
+        <img id="video" src="{{ url_for('video_feed') }}" alt="Video feed">
+    </div>
+    
+    <script>
+        const sendButton = document.getElementById('send-button');
+        const userInput = document.getElementById('user-input');
+        const messages = document.getElementById('messages');
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            appendMessage('user', message);
+            userInput.value = '';
+
+            fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => appendMessage('bot', data.reply))
+            .catch(error => console.error('Error:', error));
+        }
+
+        function appendMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            messageDiv.textContent = text;
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight; // Auto-scroll
+        }
+    </script>
+</body>
+</html> -->
